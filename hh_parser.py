@@ -42,12 +42,11 @@ def get_one_language_info_hh(response, salary_pool):
     information_about_one_language = {
         'vacancies_found': response['found'],
         'vacancies_processed': len(salary_pool),
+        'average_salary': 0
     }
 
     if len(salary_pool):
         information_about_one_language['average_salary'] = int(sum(salary_pool) / len(salary_pool))
-    else:
-        information_about_one_language['average_salary'] = 0
 
     return information_about_one_language
     
