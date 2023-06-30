@@ -33,7 +33,7 @@ def get_response_superjob(params, token):
     return response.json()
 
 
-def get_salary_pool(params, number_pages):
+def get_salary_pool(token, params, number_pages):
     salary_pool = []
     for page in range(int(number_pages)):
         params['page'] = page
@@ -46,16 +46,16 @@ def get_salary_pool(params, number_pages):
     return salary_pool
 
 
-def get_table_for_print(languages_info):
+def get_table_for_print(all_languages_info):
     header_table = [
             ["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата"]
         ]
-    for lang in languages_info:
-        one_language_info = []
-        one_language_info.append(lang)
-        for info in languages_info[lang]:
-            one_language_info.append(languages_info[lang][info])
-        header_table.append(one_language_info)
+    for lang in all_languages_info:
+        information_about_one_language = []
+        information_about_one_language.append(lang)
+        for info in all_languages_info[lang]:
+            information_about_one_language.append(all_languages_info[lang][info])
+        header_table.append(information_about_one_language)
     
     return header_table
 
@@ -65,23 +65,21 @@ def print_terminal_table(table, title):
     print(table_instance.table)
 
 
-def get_language_info_superjob(response, salary_pool):
-    one_lenguage_info = {}
-    one_lenguage_info['vacancies_found'] = response['total']
+def get_one_language_info_superjob(response, salary_pool):
+    information_about_one_language = {}
+    information_about_one_language['vacancies_found'] = response['total']
             
-    one_lenguage_info['vacancies_processed'] = len(salary_pool)
+    information_about_one_language['vacancies_processed'] = len(salary_pool)
     if len(salary_pool):
-        one_lenguage_info['average_salary'] = int(sum(salary_pool) / len(salary_pool))
+        information_about_one_language['average_salary'] = int(sum(salary_pool) / len(salary_pool))
     else:
-        one_lenguage_info['average_salary'] = 0
-    return one_lenguage_info
+        information_about_one_language['average_salary'] = 0
+    return information_about_one_language
 
 
-def print_superjob_vacancies():
-    load_dotenv()
-    token = os.environ['SUPERJOB_TOKEN']
+def print_superjob_vacancies(token):
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
-    languages_info = {}
+    all_languages_info= {}
     for lang in languages:
         params = {
                 "keyword": f"Программист {lang}",
@@ -97,11 +95,16 @@ def print_superjob_vacancies():
         elif number_pages == 0:
             continue
 
-        salary_pool = get_salary_pool(params, number_pages)
-        languages_info[lang] = get_language_info_superjob(response, salary_pool)
+        salary_pool = get_salary_pool(token, params, number_pages)
+        all_languages_info[lang] = get_one_language_info_superjob(response, salary_pool)
 
-    table = get_table_for_print(languages_info)
+    table = get_table_for_print(all_languages_info)
     print_terminal_table(table, "SuperJob Moscow")
 
+
+def launching_superjob_collection():
+    load_dotenv()
+    token = os.environ['SUPERJOB_TOKEN']
+    print_superjob_vacancies(token)
 
 

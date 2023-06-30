@@ -57,7 +57,7 @@ def get_language_info_hh(response, salary_pool):
     return one_lenguage_info
     
 
-def main_hh():
+def launching_hh_collection():
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     languages_info = {}
     for lang in languages:
@@ -82,6 +82,3 @@ def main_hh():
     table = get_table_for_print(languages_info)
     print_terminal_table(table, "HeadHunter Moscow")
 
-
-if __name__ == "__main__":
-    main_hh()
