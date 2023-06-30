@@ -2,23 +2,10 @@ import requests
 import os
 from terminaltables import AsciiTable
 from dotenv import load_dotenv
+from general_functions import averaging, get_table_for_print
 
 
-
-def averaging(from_salary, to_salary):
-    if from_salary and to_salary:
-        return int((from_salary + to_salary) // 2)
-            
-    if from_salary and not(to_salary):
-        return int(from_salary * 1.2)
-            
-    if not(from_salary) and to_salary:
-        return int(to_salary * 0.8) 
-    
-    return None
-
-
-def predict_rub_salary_for_superJob(vacancy):
+def predict_rub_salary_for_sj(vacancy):
     from_salary = vacancy['payment_from']
     to_salary = vacancy['payment_to']
     return averaging(from_salary, to_salary)
@@ -45,24 +32,10 @@ def get_salary_pool(token, params, number_pages):
         response = get_response_sj(params, token)
 
         for vacancy in response['objects']:
-            avg_salary = predict_rub_salary_for_superJob(vacancy)
+            avg_salary = predict_rub_salary_for_sj(vacancy)
             if avg_salary:
                 salary_pool.append(avg_salary)
     return salary_pool
-
-
-def get_table_for_print(all_languages_info):
-    table_header = [
-            ["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата"]
-        ]
-    for lang in all_languages_info:
-        information_about_one_language = []
-        information_about_one_language.append(lang)
-        for info in all_languages_info[lang]:
-            information_about_one_language.append(all_languages_info[lang][info])
-        table_header.append(information_about_one_language)
-    
-    return table_header
     
 
 def get_one_language_info_sj(response, salary_pool):

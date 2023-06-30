@@ -1,10 +1,10 @@
 import requests
 from terminaltables import AsciiTable
-from super_job import get_table_for_print, averaging
+from general_functions import get_table_for_print, averaging
 
 
 
-def predict_rub_salary(vacancy):
+def predict_rub_salary_hh(vacancy):
     if vacancy['salary']:
         currency = vacancy['salary']['currency']
         from_salary = vacancy['salary']['from']
@@ -31,9 +31,9 @@ def get_salary_pool_hh(params, number_pages):
         params['page'] = page
         response = get_response_hh(params)
         vacancies = response['items']
-        
+
         for vacancy in vacancies:
-            avg_salary = predict_rub_salary(vacancy)
+            avg_salary = predict_rub_salary_hh(vacancy)
             if avg_salary:
                 salary_pool.append(avg_salary)
     return salary_pool
