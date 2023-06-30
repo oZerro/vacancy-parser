@@ -71,17 +71,14 @@ def launching_hh_collection():
             }
         response = get_response_hh(params)
 
-        number_pages = response['found'] / 100
-        if number_pages > 20:
-            number_pages = 20
-        if number_pages % 10:
-            number_pages = int(number_pages) + 1
-        if number_pages == 0:
-            continue
+        number_pages = response['pages']
 
         salary_pool = get_salary_pool_hh(params, number_pages)
         all_languages_info[lang] = get_language_info_hh(response, salary_pool)
 
     table = get_table_for_print(all_languages_info)
     print_terminal_table(table, "HeadHunter Moscow")
+
+
+launching_hh_collection()
 

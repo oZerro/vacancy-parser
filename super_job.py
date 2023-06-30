@@ -109,3 +109,4 @@ def launching_superjob_collection():
     print_superjob_vacancies(token)
 
 
+
