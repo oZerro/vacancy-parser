@@ -1,5 +1,5 @@
 # Vacancy-parser
-Помогает анализировать зарплаты прогрраммистов на разных языках программирования.  
+Помогает анализировать зарплаты программистов на разных языках программирования.  
 Результат будет выглядеть, как на скрине ниже:  
 
 ![](https://sun9-70.userapi.com/impg/YmQcI0OEA4OCzw8ixiRzkHSApSYxUhK_OLrlZQ/G4MFY-tnuBI.jpg?size=977x458&quality=96&sign=128d545e5641e4fce998df87bfa24562&type=album)  
