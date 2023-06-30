@@ -52,7 +52,7 @@ def get_salary_pool(token, params, number_pages):
 
 
 def get_table_for_print(all_languages_info):
-    header_table = [
+    table_header = [
             ["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата"]
         ]
     for lang in all_languages_info:
@@ -60,9 +60,9 @@ def get_table_for_print(all_languages_info):
         information_about_one_language.append(lang)
         for info in all_languages_info[lang]:
             information_about_one_language.append(all_languages_info[lang][info])
-        header_table.append(information_about_one_language)
+        table_header.append(information_about_one_language)
     
-    return header_table
+    return table_header
 
 
 def print_terminal_table(table, title):
