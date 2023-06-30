@@ -25,17 +25,17 @@ def get_response_hh(params):
     return response.json()
 
 
-def get_salary_pool_hh(params, number_pages):
-    salary_pool = []
-    for page in range(number_pages):
-        params['page'] = page
-        response = get_response_hh(params)
-        vacancies = response['items']
+def get_salary_pool_hh(params, number_pages, salary_pool):
+    if number_pages:
+        for page in range(1, number_pages):
+            params['page'] = page
+            response = get_response_hh(params)
+            vacancies = response['items']
 
-        for vacancy in vacancies:
-            avg_salary = predict_rub_salary_hh(vacancy)
-            if avg_salary:
-                salary_pool.append(avg_salary)
+            for vacancy in vacancies:
+                avg_salary = predict_rub_salary_hh(vacancy)
+                if avg_salary:
+                    salary_pool.append(avg_salary)
     return salary_pool
 
 
@@ -58,16 +58,23 @@ def launching_hh_collection():
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages_info = {}
     for lang in languages:
+        salary_pool = []
         params = {
                 "text": f"Программист {lang}",
                 "area": mosсow_id,
                 "per_page": number_jobs_on_page,
             }
         response = get_response_hh(params)
+        vacancies = response['items']
+
+        for vacancy in vacancies:
+            avg_salary = predict_rub_salary_hh(vacancy)
+            if avg_salary:
+                salary_pool.append(avg_salary)
 
         number_pages = response['pages']
 
-        salary_pool = get_salary_pool_hh(params, number_pages)
+        salary_pool = get_salary_pool_hh(params, number_pages, salary_pool)
         all_languages_info[lang] = get_one_language_info_hh(response, salary_pool)
 
     table = get_table_for_print(all_languages_info)

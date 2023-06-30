@@ -25,16 +25,16 @@ def get_response_sj(params, token):
     return response.json()
 
 
-def get_salary_pool(token, params, number_pages):
-    salary_pool = []
-    for page in range(int(number_pages)):
-        params['page'] = page
-        response = get_response_sj(params, token)
+def get_salary_pool(token, params, number_pages, salary_pool):
+    if number_pages:
+        for page in range(1, int(number_pages)):
+            params['page'] = page
+            response = get_response_sj(params, token)
 
-        for vacancy in response['objects']:
-            avg_salary = predict_rub_salary_for_sj(vacancy)
-            if avg_salary:
-                salary_pool.append(avg_salary)
+            for vacancy in response['objects']:
+                avg_salary = predict_rub_salary_for_sj(vacancy)
+                if avg_salary:
+                    salary_pool.append(avg_salary)
     return salary_pool
     
 
@@ -56,11 +56,17 @@ def print_superjob_vacancies(token):
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages_info= {}
     for lang in languages:
+        salary_pool = []
         params = {
                 "keyword": f"Программист {lang}",
                 "town": mosсow_id,
             }
         response = get_response_sj(params, token)
+        for vacancy in response['objects']:
+            avg_salary = predict_rub_salary_for_sj(vacancy)
+            if avg_salary:
+                salary_pool.append(avg_salary)
+
         number_pages = response['total'] / 20
 
         if number_pages > 25:
@@ -70,7 +76,7 @@ def print_superjob_vacancies(token):
         elif number_pages == 0:
             continue
 
-        salary_pool = get_salary_pool(token, params, number_pages)
+        salary_pool = get_salary_pool(token, params, number_pages, salary_pool)
         all_languages_info[lang] = get_one_language_info_sj(response, salary_pool)
 
     table = get_table_for_print(all_languages_info)
