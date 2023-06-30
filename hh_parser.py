@@ -30,9 +30,10 @@ def get_salary_pool_hh(params, number_pages):
     for page in range(number_pages):
         params['page'] = page
         response = get_response_hh(params)
+        vacancies = response['items']
         
-        for item in response['items']:
-            avg_salary = predict_rub_salary(item)
+        for vacancy in vacancies:
+            avg_salary = predict_rub_salary(vacancy)
             if avg_salary:
                 salary_pool.append(avg_salary)
     return salary_pool
