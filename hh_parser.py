@@ -46,20 +46,20 @@ def get_salary_pool_hh(params, number_pages):
 
 
 def get_language_info_hh(response, salary_pool):
-    one_lenguage_info = {}
-    one_lenguage_info['vacancies_found'] = response['found']
+    information_about_one_language = {}
+    information_about_one_language['vacancies_found'] = response['found']
     
-    one_lenguage_info['vacancies_processed'] = len(salary_pool)
+    information_about_one_language['vacancies_processed'] = len(salary_pool)
     if len(salary_pool):
-        one_lenguage_info['average_salary'] = int(sum(salary_pool) / len(salary_pool))
+        information_about_one_language['average_salary'] = int(sum(salary_pool) / len(salary_pool))
     else:
-        one_lenguage_info['average_salary'] = 0
-    return one_lenguage_info
+        information_about_one_language['average_salary'] = 0
+    return information_about_one_language
     
 
 def launching_hh_collection():
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
-    languages_info = {}
+    all_languages_info = {}
     for lang in languages:
         params = {
                 "text": f"Программист {lang}",
@@ -77,8 +77,8 @@ def launching_hh_collection():
             continue
 
         salary_pool = get_salary_pool_hh(params, number_pages)
-        languages_info[lang] = get_language_info_hh(response, salary_pool)
+        all_languages_info[lang] = get_language_info_hh(response, salary_pool)
 
-    table = get_table_for_print(languages_info)
+    table = get_table_for_print(all_languages_info)
     print_terminal_table(table, "HeadHunter Moscow")
 
