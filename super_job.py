@@ -4,8 +4,6 @@ from terminaltables import AsciiTable
 from dotenv import load_dotenv
 
 
-load_dotenv()
-token = os.environ['SUPERJOB_TOKEN']
 
 def predict_rub_salary_for_superJob(vacancy):
     from_salary = vacancy['payment_from']
@@ -79,7 +77,7 @@ def get_language_info_superjob(response, salary_pool):
     return one_lenguage_info
 
 
-def main_superjob():
+def print_superjob_vacancies():
     load_dotenv()
     token = os.environ['SUPERJOB_TOKEN']
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
@@ -105,8 +103,5 @@ def main_superjob():
     table = get_table_for_print(languages_info)
     print_terminal_table(table, "SuperJob Moscow")
 
-
-if __name__ == "__main__":
-    main_superjob()
 
 
