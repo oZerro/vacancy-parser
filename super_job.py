@@ -71,14 +71,16 @@ def print_terminal_table(table, title):
 
 
 def get_one_language_info_sj(response, salary_pool):
-    information_about_one_language = {}
-    information_about_one_language['vacancies_found'] = response['total']
-            
-    information_about_one_language['vacancies_processed'] = len(salary_pool)
+    information_about_one_language = {
+        'vacancies_found': response['total'],
+        'vacancies_processed': len(salary_pool),
+    }
+    
     if len(salary_pool):
         information_about_one_language['average_salary'] = int(sum(salary_pool) / len(salary_pool))
     else:
         information_about_one_language['average_salary'] = 0
+        
     return information_about_one_language
 
 
