@@ -1,6 +1,6 @@
 import requests
 from terminaltables import AsciiTable
-from super_job import get_table_for_print, print_terminal_table
+from super_job import get_table_for_print, print_terminal_table, averaging
 
 
 
@@ -11,15 +11,7 @@ def predict_rub_salary(vacancy):
         to_salary = vacancy['salary']['to']
 
         if currency == "RUR":
-            if from_salary and to_salary:
-                return int((from_salary + to_salary) // 2)
-            
-            if from_salary and not(to_salary):
-                return int(from_salary * 1.2)
-            
-            if not(from_salary) and to_salary:
-                return int(to_salary * 0.8) 
-    return None
+            averaging(from_salary, to_salary)
 
 
 def get_response_hh(params):
@@ -46,7 +38,7 @@ def get_salary_pool_hh(params, number_pages):
     return salary_pool
 
 
-def get_language_info_hh(response, salary_pool):
+def get_one_language_info_hh(response, salary_pool):
     information_about_one_language = {}
     information_about_one_language['vacancies_found'] = response['found']
     
@@ -74,11 +66,9 @@ def launching_hh_collection():
         number_pages = response['pages']
 
         salary_pool = get_salary_pool_hh(params, number_pages)
-        all_languages_info[lang] = get_language_info_hh(response, salary_pool)
+        all_languages_info[lang] = get_one_language_info_hh(response, salary_pool)
 
     table = get_table_for_print(all_languages_info)
     print_terminal_table(table, "HeadHunter Moscow")
 
-
-launching_hh_collection()
 

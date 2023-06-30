@@ -5,10 +5,7 @@ from dotenv import load_dotenv
 
 
 
-def predict_rub_salary_for_superJob(vacancy):
-    from_salary = vacancy['payment_from']
-    to_salary = vacancy['payment_to']
-  
+def averaging(from_salary, to_salary):
     if from_salary and to_salary:
         return int((from_salary + to_salary) // 2)
             
@@ -17,7 +14,15 @@ def predict_rub_salary_for_superJob(vacancy):
             
     if not(from_salary) and to_salary:
         return int(to_salary * 0.8) 
+    
     return None
+
+
+def predict_rub_salary_for_superJob(vacancy):
+    from_salary = vacancy['payment_from']
+    to_salary = vacancy['payment_to']
+    averaging(from_salary, to_salary)
+    
 
 
 def get_response_superjob(params, token):
