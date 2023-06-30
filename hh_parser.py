@@ -11,7 +11,7 @@ def predict_rub_salary(vacancy):
         to_salary = vacancy['salary']['to']
 
         if currency == "RUR":
-            averaging(from_salary, to_salary)
+            return averaging(from_salary, to_salary)
 
 
 def get_response_hh(params):

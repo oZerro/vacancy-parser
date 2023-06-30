@@ -21,11 +21,11 @@ def averaging(from_salary, to_salary):
 def predict_rub_salary_for_superJob(vacancy):
     from_salary = vacancy['payment_from']
     to_salary = vacancy['payment_to']
-    averaging(from_salary, to_salary)
+    return averaging(from_salary, to_salary)
     
 
 
-def get_response_superjob(params, token):
+def get_response_sj(params, token):
     url = "https://api.superjob.ru/2.0/vacancies/"
 
     headers = {
@@ -42,7 +42,7 @@ def get_salary_pool(token, params, number_pages):
     salary_pool = []
     for page in range(int(number_pages)):
         params['page'] = page
-        response = get_response_superjob(params, token)
+        response = get_response_sj(params, token)
 
         for vacancy in response['objects']:
             avg_salary = predict_rub_salary_for_superJob(vacancy)
@@ -70,7 +70,7 @@ def print_terminal_table(table, title):
     print(table_instance.table)
 
 
-def get_one_language_info_superjob(response, salary_pool):
+def get_one_language_info_sj(response, salary_pool):
     information_about_one_language = {}
     information_about_one_language['vacancies_found'] = response['total']
             
@@ -91,7 +91,7 @@ def print_superjob_vacancies(token):
                 "keyword": f"Программист {lang}",
                 "town": mosсow_id,
             }
-        response = get_response_superjob(params, token)
+        response = get_response_sj(params, token)
         number_pages = response['total'] / 20
 
         if number_pages > 25:
@@ -102,13 +102,13 @@ def print_superjob_vacancies(token):
             continue
 
         salary_pool = get_salary_pool(token, params, number_pages)
-        all_languages_info[lang] = get_one_language_info_superjob(response, salary_pool)
+        all_languages_info[lang] = get_one_language_info_sj(response, salary_pool)
 
     table = get_table_for_print(all_languages_info)
     print_terminal_table(table, "SuperJob Moscow")
 
 
-def launching_superjob_collection():
+def launching_sj_collection():
     load_dotenv()
     token = os.environ['SUPERJOB_TOKEN']
     print_superjob_vacancies(token)
