@@ -63,12 +63,7 @@ def get_table_for_print(all_languages_info):
         table_header.append(information_about_one_language)
     
     return table_header
-
-
-def print_terminal_table(table, title):
-    table_instance = AsciiTable(table, title)
-    print(table_instance.table)
-
+    
 
 def get_one_language_info_sj(response, salary_pool):
     information_about_one_language = {
@@ -106,7 +101,9 @@ def print_superjob_vacancies(token):
         all_languages_info[lang] = get_one_language_info_sj(response, salary_pool)
 
     table = get_table_for_print(all_languages_info)
-    print_terminal_table(table, "SuperJob Moscow")
+    table_instance = AsciiTable(table, title="SuperJob Moscow")
+    print(table_instance.table)
+    
 
 
 def launching_sj_collection():

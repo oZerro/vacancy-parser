@@ -1,6 +1,6 @@
 import requests
 from terminaltables import AsciiTable
-from super_job import get_table_for_print, print_terminal_table, averaging
+from super_job import get_table_for_print, averaging
 
 
 
@@ -70,6 +70,7 @@ def launching_hh_collection():
         all_languages_info[lang] = get_one_language_info_hh(response, salary_pool)
 
     table = get_table_for_print(all_languages_info)
-    print_terminal_table(table, "HeadHunter Moscow")
+    table_instance = AsciiTable(table, title="HeadHunter Moscow")
+    print(table_instance.table)
 
 
