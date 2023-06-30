@@ -78,12 +78,13 @@ def get_one_language_info_superjob(response, salary_pool):
 
 
 def print_superjob_vacancies(token):
+    mosсow_id = 4
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages_info= {}
     for lang in languages:
         params = {
                 "keyword": f"Программист {lang}",
-                "town": 4,
+                "town": mosсow_id,
             }
         response = get_response_superjob(params, token)
         number_pages = response['total'] / 20

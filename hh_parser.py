@@ -3,6 +3,7 @@ from terminaltables import AsciiTable
 from super_job import get_table_for_print, print_terminal_table
 
 
+
 def predict_rub_salary(vacancy):
     if vacancy['salary']:
         currency = vacancy['salary']['currency']
@@ -58,13 +59,15 @@ def get_language_info_hh(response, salary_pool):
     
 
 def launching_hh_collection():
+    mosсow_id = 1
+    number_jobs_on_page = 100
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages_info = {}
     for lang in languages:
         params = {
                 "text": f"Программист {lang}",
-                "area": 1,
-                "per_page": 100,
+                "area": mosсow_id,
+                "per_page": number_jobs_on_page,
             }
         response = get_response_hh(params)
 
