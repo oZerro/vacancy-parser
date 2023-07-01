@@ -13,11 +13,11 @@ def predict_rub_salary_for_sj(vacancy):
 
 
 def get_response_sj(params, token):
-    url = "https://api.superjob.ru/2.0/vacancies/"
+    url = 'https://api.superjob.ru/2.0/vacancies/'
 
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-        "X-Api-App-Id": token
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+        'X-Api-App-Id': token
     }
 
     response = requests.get(url, headers=headers, params=params)
@@ -56,8 +56,8 @@ def print_superjob_vacancies(token, languages, town_id):
     for lang in languages:
         salary_pool = []
         params = {
-                "keyword": f"Программист {lang}",
-                "town": town_id,
+                'keyword': f'Программист {lang}',
+                'town': town_id,
             }
         response = get_response_sj(params, token)
         for vacancy in response['objects']:
@@ -77,7 +77,7 @@ def print_superjob_vacancies(token, languages, town_id):
         salary_pool = get_salary_pool_sj(token, params, number_pages, salary_pool)
         all_languages[lang] = get_one_language_info_sj(response, salary_pool)
 
-    return get_table_for_print(all_languages, "SuperJob Moscow")
+    return get_table_for_print(all_languages, 'SuperJob Moscow')
     
 
 

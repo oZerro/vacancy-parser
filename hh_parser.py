@@ -15,10 +15,10 @@ def predict_rub_salary_hh(vacancy):
 
 
 def get_response_hh(params):
-    url = "https://api.hh.ru/vacancies"
+    url = 'https://api.hh.ru/vacancies'
 
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
     }
     response = requests.get(url, params=params, headers=headers)
     response.raise_for_status()
@@ -57,9 +57,9 @@ def launching_hh_collection(languages, area_id, number_jobs_on_page):
     for lang in languages:
         salary_pool = []
         params = {
-                "text": f"Программист {lang}",
-                "area": area_id,
-                "per_page": number_jobs_on_page,
+                'text': f'Программист {lang}',
+                'area': area_id,
+                'per_page': number_jobs_on_page,
             }
         response = get_response_hh(params)
         vacancies = response['items']
@@ -74,7 +74,7 @@ def launching_hh_collection(languages, area_id, number_jobs_on_page):
         salary_pool = get_salary_pool_hh(params, number_pages, salary_pool)
         all_languages[lang] = get_one_language_info_hh(response, salary_pool)
 
-    return get_table_for_print(all_languages, "HeadHunter Moscow")
+    return get_table_for_print(all_languages, 'HeadHunter Moscow')
 
 
 def main():
