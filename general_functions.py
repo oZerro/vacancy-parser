@@ -5,10 +5,10 @@ def get_averaging(from_salary, to_salary):
     if from_salary and to_salary:
         return int((from_salary + to_salary) // 2)
             
-    if from_salary and not(to_salary):
+    if from_salary and not to_salary:
         return int(from_salary * 1.2)
             
-    if not(from_salary) and to_salary:
+    if not from_salary and to_salary:
         return int(to_salary * 0.8) 
     
     return None
