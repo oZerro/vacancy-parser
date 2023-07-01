@@ -1,8 +1,8 @@
-from hh_parser import launching_hh_collection
-from super_job import launching_sj_collection
+import hh_parser
+import super_job 
 
 
 if __name__ == "__main__":  
-    launching_sj_collection()
+    super_job.main()
     print()
-    launching_hh_collection()
+    hh_parser.main()

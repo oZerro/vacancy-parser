@@ -52,16 +52,13 @@ def get_one_language_info_hh(response, salary_pool):
     return information_about_one_language
     
 
-def launching_hh_collection():
-    mosсow_id = 1
-    number_jobs_on_page = 100
-    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
+def launching_hh_collection(languages, area_id, number_jobs_on_page):
     all_languages_info = {}
     for lang in languages:
         salary_pool = []
         params = {
                 "text": f"Программист {lang}",
-                "area": mosсow_id,
+                "area": area_id,
                 "per_page": number_jobs_on_page,
             }
         response = get_response_hh(params)
@@ -77,6 +74,13 @@ def launching_hh_collection():
         salary_pool = get_salary_pool_hh(params, number_pages, salary_pool)
         all_languages_info[lang] = get_one_language_info_hh(response, salary_pool)
 
-    print(get_table_for_print(all_languages_info, "HeadHunter Moscow"))
+    return get_table_for_print(all_languages_info, "HeadHunter Moscow")
+
+
+def main():
+    mosсow_id = 1
+    number_jobs_on_page = 100
+    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
+    print(launching_hh_collection(languages, mosсow_id, number_jobs_on_page))
 
 

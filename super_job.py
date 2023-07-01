@@ -25,7 +25,7 @@ def get_response_sj(params, token):
     return response.json()
 
 
-def get_salary_pool(token, params, number_pages, salary_pool):
+def get_salary_pool_sj(token, params, number_pages, salary_pool):
     if number_pages:
         for page in range(1, int(number_pages)):
             params['page'] = page
@@ -51,15 +51,13 @@ def get_one_language_info_sj(response, salary_pool):
     return information_about_one_language
 
 
-def print_superjob_vacancies(token):
-    mosсow_id = 4
-    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
+def print_superjob_vacancies(token, languages, town_id):
     all_languages_info= {}
     for lang in languages:
         salary_pool = []
         params = {
                 "keyword": f"Программист {lang}",
-                "town": mosсow_id,
+                "town": town_id,
             }
         response = get_response_sj(params, token)
         for vacancy in response['objects']:
@@ -76,17 +74,19 @@ def print_superjob_vacancies(token):
         elif number_pages == 0:
             continue
 
-        salary_pool = get_salary_pool(token, params, number_pages, salary_pool)
+        salary_pool = get_salary_pool_sj(token, params, number_pages, salary_pool)
         all_languages_info[lang] = get_one_language_info_sj(response, salary_pool)
 
-    print(get_table_for_print(all_languages_info, "SuperJob Moscow"))
+    return get_table_for_print(all_languages_info, "SuperJob Moscow")
     
 
 
-def launching_sj_collection():
+def main():
     load_dotenv()
     token = os.environ['SUPERJOB_TOKEN']
-    print_superjob_vacancies(token)
+    mosсow_id = 4
+    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
+    print(print_superjob_vacancies(token, languages, mosсow_id))
 
 
 
