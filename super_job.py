@@ -37,7 +37,7 @@ def get_salary_pool_sj(token, params, number_pages, salary_pool):
     return salary_pool
     
 
-def get_one_language_info_sj(response, salary_pool):
+def get_language_synopsis_sj(response, salary_pool):
     one_language = {
         'vacancies_found': response['total'],
         'vacancies_processed': len(salary_pool),
@@ -67,7 +67,7 @@ def print_superjob_vacancies(token, languages, town_id):
         number_pages = response['total'] / 20
 
         salary_pool = get_salary_pool_sj(token, params, number_pages, salary_pool)
-        all_languages[lang] = get_one_language_info_sj(response, salary_pool)
+        all_languages[lang] = get_language_synopsis_sj(response, salary_pool)
 
     return get_table_for_print(all_languages, 'SuperJob Moscow')
     
