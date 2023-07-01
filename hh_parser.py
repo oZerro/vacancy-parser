@@ -40,20 +40,20 @@ def get_salary_pool_hh(params, number_pages, salary_pool):
 
 
 def get_one_language_info_hh(response, salary_pool):
-    information_about_one_language = {
+    one_language = {
         'vacancies_found': response['found'],
         'vacancies_processed': len(salary_pool),
         'average_salary': 0
     }
 
     if len(salary_pool):
-        information_about_one_language['average_salary'] = int(sum(salary_pool) / len(salary_pool))
+        one_language['average_salary'] = int(sum(salary_pool) / len(salary_pool))
 
-    return information_about_one_language
+    return one_language
     
 
 def launching_hh_collection(languages, area_id, number_jobs_on_page):
-    all_languages_info = {}
+    all_languages = {}
     for lang in languages:
         salary_pool = []
         params = {
@@ -72,9 +72,9 @@ def launching_hh_collection(languages, area_id, number_jobs_on_page):
         number_pages = response['pages']
 
         salary_pool = get_salary_pool_hh(params, number_pages, salary_pool)
-        all_languages_info[lang] = get_one_language_info_hh(response, salary_pool)
+        all_languages[lang] = get_one_language_info_hh(response, salary_pool)
 
-    return get_table_for_print(all_languages_info, "HeadHunter Moscow")
+    return get_table_for_print(all_languages, "HeadHunter Moscow")
 
 
 def main():
