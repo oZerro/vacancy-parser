@@ -1,6 +1,6 @@
 import requests
 from terminaltables import AsciiTable
-from general_functions import get_table_for_print, averaging
+from general_functions import get_table_for_print, get_averaging
 
 
 
@@ -11,7 +11,7 @@ def predict_rub_salary_hh(vacancy):
         to_salary = vacancy['salary']['to']
 
         if currency == "RUR":
-            return averaging(from_salary, to_salary)
+            return get_averaging(from_salary, to_salary)
 
 
 def get_response_hh(params):

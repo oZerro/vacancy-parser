@@ -1,7 +1,7 @@
 from terminaltables import AsciiTable
 
 
-def averaging(from_salary, to_salary):
+def get_averaging(from_salary, to_salary):
     if from_salary and to_salary:
         return int((from_salary + to_salary) // 2)
             
@@ -26,4 +26,4 @@ def get_table_for_print(all_languages_info, title):
         table_header.append(information_about_one_language)
     
     table_instance = AsciiTable(table_header, title)
-    return table_instance
+    return table_instance.table

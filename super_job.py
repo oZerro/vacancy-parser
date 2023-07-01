@@ -1,14 +1,13 @@
 import requests
 import os
-from terminaltables import AsciiTable
 from dotenv import load_dotenv
-from general_functions import averaging, get_table_for_print
+from general_functions import get_averaging, get_table_for_print
 
 
 def predict_rub_salary_for_sj(vacancy):
     from_salary = vacancy['payment_from']
     to_salary = vacancy['payment_to']
-    return averaging(from_salary, to_salary)
+    return get_averaging(from_salary, to_salary)
     
 
 
@@ -66,13 +65,6 @@ def print_superjob_vacancies(token, languages, town_id):
                 salary_pool.append(avg_salary)
 
         number_pages = response['total'] / 20
-
-        if number_pages > 25:
-            number_pages = 25
-        elif number_pages % 10:
-            number_pages = int(number_pages) + 1
-        elif number_pages == 0:
-            continue
 
         salary_pool = get_salary_pool_sj(token, params, number_pages, salary_pool)
         all_languages[lang] = get_one_language_info_sj(response, salary_pool)
