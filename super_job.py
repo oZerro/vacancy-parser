@@ -79,9 +79,7 @@ def print_superjob_vacancies(token):
         salary_pool = get_salary_pool(token, params, number_pages, salary_pool)
         all_languages_info[lang] = get_one_language_info_sj(response, salary_pool)
 
-    table = get_table_for_print(all_languages_info)
-    table_instance = AsciiTable(table, title="SuperJob Moscow")
-    print(table_instance.table)
+    print(get_table_for_print(all_languages_info, "SuperJob Moscow"))
     
 
 

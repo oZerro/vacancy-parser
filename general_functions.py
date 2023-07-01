@@ -1,3 +1,4 @@
+from terminaltables import AsciiTable
 
 
 def averaging(from_salary, to_salary):
@@ -13,7 +14,7 @@ def averaging(from_salary, to_salary):
     return None
 
 
-def get_table_for_print(all_languages_info):
+def get_table_for_print(all_languages_info, title):
     table_header = [
             ["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата"]
         ]
@@ -24,4 +25,5 @@ def get_table_for_print(all_languages_info):
             information_about_one_language.append(all_languages_info[lang][info])
         table_header.append(information_about_one_language)
     
-    return table_header
+    table_instance = AsciiTable(table_header, title)
+    return table_instance
