@@ -1,5 +1,4 @@
 import requests
-from terminaltables import AsciiTable
 from general_functions import get_table_for_print, get_averaging
 
 

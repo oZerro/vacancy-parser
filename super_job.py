@@ -56,7 +56,7 @@ def print_superjob_vacancies(token, languages, town_id):
         for page in range(1, int(number_pages)):
             params['page'] = page
             response = get_response_sj(params, token)
-
+            
             for vacancy in response['objects']:
                 avg_salary = predict_rub_salary_for_sj(vacancy)
                 if avg_salary:
