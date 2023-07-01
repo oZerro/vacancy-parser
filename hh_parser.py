@@ -25,20 +25,6 @@ def get_response_hh(params):
     return response.json()
 
 
-def get_salary_pool_hh(params, number_pages, salary_pool):
-    if number_pages:
-        for page in range(1, number_pages):
-            params['page'] = page
-            response = get_response_hh(params)
-            vacancies = response['items']
-
-            for vacancy in vacancies:
-                avg_salary = predict_rub_salary_hh(vacancy)
-                if avg_salary:
-                    salary_pool.append(avg_salary)
-    return salary_pool
-
-
 def get_language_synopsis_hh(response, salary_pool):
     one_language = {
         'vacancies_found': response['found'],
@@ -71,7 +57,16 @@ def launching_hh_collection(languages, area_id, number_jobs_on_page):
 
         number_pages = response['pages']
 
-        salary_pool = get_salary_pool_hh(params, number_pages, salary_pool)
+        for page in range(1, number_pages):
+            params['page'] = page
+            response = get_response_hh(params)
+            vacancies = response['items']
+
+            for vacancy in vacancies:
+                avg_salary = predict_rub_salary_hh(vacancy)
+                if avg_salary:
+                    salary_pool.append(avg_salary)
+
         all_languages[lang] = get_language_synopsis_hh(response, salary_pool)
 
     return get_table_for_print(all_languages, 'HeadHunter Moscow')

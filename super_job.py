@@ -22,19 +22,6 @@ def get_response_sj(params, token):
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
     return response.json()
-
-
-def get_salary_pool_sj(token, params, number_pages, salary_pool):
-    if number_pages:
-        for page in range(1, int(number_pages)):
-            params['page'] = page
-            response = get_response_sj(params, token)
-
-            for vacancy in response['objects']:
-                avg_salary = predict_rub_salary_for_sj(vacancy)
-                if avg_salary:
-                    salary_pool.append(avg_salary)
-    return salary_pool
     
 
 def get_language_synopsis_sj(response, salary_pool):
@@ -66,7 +53,15 @@ def print_superjob_vacancies(token, languages, town_id):
 
         number_pages = response['total'] / 20
 
-        salary_pool = get_salary_pool_sj(token, params, number_pages, salary_pool)
+        for page in range(1, int(number_pages)):
+            params['page'] = page
+            response = get_response_sj(params, token)
+
+            for vacancy in response['objects']:
+                avg_salary = predict_rub_salary_for_sj(vacancy)
+                if avg_salary:
+                    salary_pool.append(avg_salary)
+
         all_languages[lang] = get_language_synopsis_sj(response, salary_pool)
 
     return get_table_for_print(all_languages, 'SuperJob Moscow')
