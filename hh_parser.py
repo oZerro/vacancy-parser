@@ -37,13 +37,16 @@ def get_language_synopsis_hh(response, salary_pool):
     return one_language
     
 
-def launching_hh_collection(languages, area_id, number_jobs_on_page):
+def main():
+    mosсow_id = 1
+    number_jobs_on_page = 100
+    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages = {}
     for lang in languages:
         salary_pool = []
         params = {
                 'text': f'Программист {lang}',
-                'area': area_id,
+                'area': mosсow_id,
                 'per_page': number_jobs_on_page,
             }
         response = get_response_hh(params)
@@ -67,14 +70,9 @@ def launching_hh_collection(languages, area_id, number_jobs_on_page):
                     salary_pool.append(avg_salary)
 
         all_languages[lang] = get_language_synopsis_hh(response, salary_pool)
+        table_for_print = get_table_for_print(all_languages, 'HeadHunter Moscow')
 
-    return get_table_for_print(all_languages, 'HeadHunter Moscow')
+    print(table_for_print)
 
-
-def main():
-    mosсow_id = 1
-    number_jobs_on_page = 100
-    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
-    print(launching_hh_collection(languages, mosсow_id, number_jobs_on_page))
 
 

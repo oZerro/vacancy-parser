@@ -37,13 +37,17 @@ def get_language_synopsis_sj(response, salary_pool):
     return one_language
 
 
-def print_superjob_vacancies(token, languages, town_id):
+def main():
+    load_dotenv()
+    token = os.environ['SUPERJOB_TOKEN']
+    mosсow_id = 4
+    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages= {}
     for lang in languages:
         salary_pool = []
         params = {
                 'keyword': f'Программист {lang}',
-                'town': town_id,
+                'town': mosсow_id,
             }
         response = get_response_sj(params, token)
         for vacancy in response['objects']:
@@ -63,17 +67,10 @@ def print_superjob_vacancies(token, languages, town_id):
                     salary_pool.append(avg_salary)
 
         all_languages[lang] = get_language_synopsis_sj(response, salary_pool)
-
-    return get_table_for_print(all_languages, 'SuperJob Moscow')
+        table_for_print = get_table_for_print(all_languages, 'SuperJob Moscow')
+        
+    print(table_for_print)
     
-
-
-def main():
-    load_dotenv()
-    token = os.environ['SUPERJOB_TOKEN']
-    mosсow_id = 4
-    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
-    print(print_superjob_vacancies(token, languages, mosсow_id))
 
 
 
