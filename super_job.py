@@ -41,6 +41,7 @@ def main():
     load_dotenv()
     token = os.environ['SUPERJOB_TOKEN']
     mosсow_id = 4
+    jobs_per_page = 20
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages= {}
     for lang in languages:
@@ -55,7 +56,7 @@ def main():
             if avg_salary:
                 salary_pool.append(avg_salary)
 
-        number_pages = response['total'] / 20
+        number_pages = response['total'] / jobs_per_page
 
         for page in range(1, int(number_pages)):
             params['page'] = page
@@ -68,7 +69,7 @@ def main():
 
         all_languages[lang] = get_language_synopsis_sj(response, salary_pool)
         table_for_print = get_table_for_print(all_languages, 'SuperJob Moscow')
-        
+
     print(table_for_print)
     
 
