@@ -14,16 +14,16 @@ def get_averaging(from_salary, to_salary):
     return None
 
 
-def get_table_for_print(all_languages_info, title):
+def get_table_for_print(all_languages_synopsis, title):
     table_header = [
             ["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата"]
         ]
-    for lang in all_languages_info:
-        information_about_one_language = []
-        information_about_one_language.append(lang)
-        for info in all_languages_info[lang]:
-            information_about_one_language.append(all_languages_info[lang][info])
-        table_header.append(information_about_one_language)
+    for lang in all_languages_synopsis:
+        one_language_synopsis = []
+        one_language_synopsis.append(lang)
+        for info in all_languages_synopsis[lang]:
+            one_language_synopsis.append(all_languages_synopsis[lang][info])
+        table_header.append(one_language_synopsis)
     
     table_instance = AsciiTable(table_header, title)
     return table_instance.table
