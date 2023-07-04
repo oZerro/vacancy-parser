@@ -37,8 +37,8 @@ def get_language_synopsis_sj(response, salary_pool):
     return one_language
 
 
-def add_salary_to_calculate(salary_pool, response):
-    for vacancy in response['objects']:
+def add_salary_to_calculate(salary_pool, vacancies):
+    for vacancy in vacancies:
         avg_salary = predict_rub_salary_for_sj(vacancy)
         if avg_salary:
             salary_pool.append(avg_salary)
@@ -59,15 +59,16 @@ def main():
                 'town': mosсow_id,
             }
         response = get_response_sj(params, token)
-        salary_pool += add_salary_to_calculate(salary_pool, response)
+        vacancies = response['objects']
+        salary_pool += add_salary_to_calculate(salary_pool, vacancies)
 
         number_pages = response['total'] / jobs_per_page
 
         for page in range(1, int(number_pages)):
             params['page'] = page
             response = get_response_sj(params, token)
-            
-            salary_pool += add_salary_to_calculate(salary_pool, response)
+            vacancies = response['objects']
+            salary_pool += add_salary_to_calculate(salary_pool, vacancies)
 
         all_languages[lang] = get_language_synopsis_sj(response, salary_pool)
         table_for_print = get_table_for_print(all_languages, 'SuperJob Moscow')
