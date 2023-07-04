@@ -35,7 +35,15 @@ def get_language_synopsis_hh(response, salary_pool):
         one_language['average_salary'] = int(sum(salary_pool) / len(salary_pool))
 
     return one_language
-    
+
+
+def add_salary_to_calculate(salary_pool, vacancies):
+    for vacancy in vacancies:
+        avg_salary = predict_rub_salary_hh(vacancy)
+        if avg_salary:
+            salary_pool.append(avg_salary)
+    return salary_pool
+
 
 def main():
     mosсow_id = 1
@@ -51,23 +59,14 @@ def main():
             }
         response = get_response_hh(params)
         vacancies = response['items']
-
-        for vacancy in vacancies:
-            avg_salary = predict_rub_salary_hh(vacancy)
-            if avg_salary:
-                salary_pool.append(avg_salary)
-
+        salary_pool += add_salary_to_calculate(salary_pool, vacancies)
         number_pages = response['pages']
 
         for page in range(1, number_pages):
             params['page'] = page
             response = get_response_hh(params)
             vacancies = response['items']
-
-            for vacancy in vacancies:
-                avg_salary = predict_rub_salary_hh(vacancy)
-                if avg_salary:
-                    salary_pool.append(avg_salary)
+            salary_pool += add_salary_to_calculate(salary_pool, vacancies)
 
         all_languages[lang] = get_language_synopsis_hh(response, salary_pool)
         table_for_print = get_table_for_print(all_languages, 'HeadHunter Moscow')
