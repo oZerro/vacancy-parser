@@ -24,9 +24,9 @@ def get_response_hh(params):
     return response.json()
 
 
-def get_language_synopsis_hh(vacancies, salary_pool):
+def get_language_synopsis_hh(vacancy_rate, salary_pool):
     one_language = {
-        'vacancies_found': vacancies,
+        'vacancies_found': vacancy_rate,
         'vacancies_processed': len(salary_pool),
         'average_salary': 0
     }
@@ -68,8 +68,8 @@ def main():
             vacancies = response['items']
             salary_pool += add_salary_to_calculate(salary_pool, vacancies)
 
-        vacancies = response['found']
-        all_languages[lang] = get_language_synopsis_hh(vacancies, salary_pool)
+        vacancy_rate = response['found']
+        all_languages[lang] = get_language_synopsis_hh(vacancy_rate, salary_pool)
         table_for_print = get_table_for_print(all_languages, 'HeadHunter Moscow')
 
     print(table_for_print)
