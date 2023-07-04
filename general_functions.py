@@ -14,6 +14,19 @@ def get_averaging(from_salary, to_salary):
     return None
 
 
+def get_language_synopsis(vacancy_rate, salary_pool):
+    one_language_synopsis = {
+        'vacancies_found': vacancy_rate,
+        'vacancies_processed': len(salary_pool),
+        'average_salary': 0
+    }
+    
+    if len(salary_pool):
+        one_language_synopsis['average_salary'] = int(sum(salary_pool) / len(salary_pool))
+        
+    return one_language_synopsis
+
+
 def get_table_for_print(all_languages_synopsis, title):
     table_header = [
             ["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата"]

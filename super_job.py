@@ -1,7 +1,11 @@
 import requests
 import os
 from dotenv import load_dotenv
-from general_functions import get_averaging, get_table_for_print
+from general_functions import (
+        get_averaging,
+        get_table_for_print, 
+        get_language_synopsis
+    )
 
 
 def predict_rub_salary_for_sj(vacancy):
@@ -22,19 +26,6 @@ def get_response_sj(params, token):
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
     return response.json()
-    
-
-def get_language_synopsis_sj(vacancy_rate, salary_pool):
-    one_language_synopsis = {
-        'vacancies_found': vacancy_rate,
-        'vacancies_processed': len(salary_pool),
-        'average_salary': 0
-    }
-    
-    if len(salary_pool):
-        one_language_synopsis['average_salary'] = int(sum(salary_pool) / len(salary_pool))
-        
-    return one_language_synopsis
 
 
 def add_salary_to_calculate(vacancies):
@@ -73,7 +64,7 @@ def main():
             salary_pool.extend(add_salary_to_calculate(vacancies))
 
         vacancy_rate = response['total']
-        all_languages_synopsis[lang] = get_language_synopsis_sj(vacancy_rate, salary_pool)
+        all_languages_synopsis[lang] = get_language_synopsis(vacancy_rate, salary_pool)
     table_for_print = get_table_for_print(all_languages_synopsis, 'SuperJob Moscow')
 
     print(table_for_print)

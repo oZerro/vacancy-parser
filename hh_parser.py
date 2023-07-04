@@ -1,5 +1,9 @@
 import requests
-from general_functions import get_table_for_print, get_averaging
+from general_functions import (
+        get_table_for_print,
+        get_averaging, 
+        get_language_synopsis
+    )
 
 
 
@@ -25,19 +29,6 @@ def get_response_hh(params):
     response = requests.get(url, params=params, headers=headers)
     response.raise_for_status()
     return response.json()
-
-
-def get_language_synopsis_hh(vacancy_rate, salary_pool):
-    one_language_synopsis = {
-        'vacancies_found': vacancy_rate,
-        'vacancies_processed': len(salary_pool),
-        'average_salary': 0
-    }
-
-    if len(salary_pool):
-        one_language_synopsis['average_salary'] = int(sum(salary_pool) / len(salary_pool))
-
-    return one_language_synopsis
 
 
 def add_salary_to_calculate(vacancies):
@@ -75,7 +66,7 @@ def main():
             salary_pool.extend(add_salary_to_calculate(vacancies))
 
         vacancy_rate = response['found']
-        all_languages_synopsis[lang] = get_language_synopsis_hh(vacancy_rate, salary_pool)
+        all_languages_synopsis[lang] = get_language_synopsis(vacancy_rate, salary_pool)
     table_for_print = get_table_for_print(all_languages_synopsis, 'HeadHunter Moscow')
 
     print(table_for_print)
