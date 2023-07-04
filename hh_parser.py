@@ -4,13 +4,16 @@ from general_functions import get_table_for_print, get_averaging
 
 
 def predict_rub_salary_hh(vacancy):
-    if vacancy['salary']:
-        currency = vacancy['salary']['currency']
-        from_salary = vacancy['salary']['from']
-        to_salary = vacancy['salary']['to']
+    currency = vacancy['currency']
 
-        if currency == "RUR":
-            return get_averaging(from_salary, to_salary)
+    if currency != "RUR":
+        return
+    
+    from_salary = vacancy['from']
+    to_salary = vacancy['to']
+
+    if currency == "RUR":
+        return get_averaging(from_salary, to_salary)
 
 
 def get_response_hh(params):
@@ -37,12 +40,15 @@ def get_language_synopsis_hh(vacancy_rate, salary_pool):
     return one_language_synopsis
 
 
-def add_salary_to_calculate(salary_pool, vacancies):
+def add_salary_to_calculate(vacancies):
+    sal_pool = []
     for vacancy in vacancies:
-        avg_salary = predict_rub_salary_hh(vacancy)
+        if not vacancy['salary']:
+            continue
+        avg_salary = predict_rub_salary_hh(vacancy['salary'])
         if avg_salary:
-            salary_pool.append(avg_salary)
-    return salary_pool
+            sal_pool.append(avg_salary)
+    return sal_pool
 
 
 def main():
@@ -59,18 +65,18 @@ def main():
             }
         response = get_response_hh(params)
         vacancies = response['items']
-        salary_pool += add_salary_to_calculate(salary_pool, vacancies)
+        salary_pool.extend(add_salary_to_calculate(vacancies))
         number_pages = response['pages']
 
         for page in range(1, number_pages):
             params['page'] = page
             response = get_response_hh(params)
             vacancies = response['items']
-            salary_pool += add_salary_to_calculate(salary_pool, vacancies)
+            salary_pool.extend(add_salary_to_calculate(vacancies))
 
         vacancy_rate = response['found']
         all_languages_synopsis[lang] = get_language_synopsis_hh(vacancy_rate, salary_pool)
-        table_for_print = get_table_for_print(all_languages_synopsis, 'HeadHunter Moscow')
+    table_for_print = get_table_for_print(all_languages_synopsis, 'HeadHunter Moscow')
 
     print(table_for_print)
 

@@ -37,7 +37,8 @@ def get_language_synopsis_sj(vacancy_rate, salary_pool):
     return one_language_synopsis
 
 
-def add_salary_to_calculate(salary_pool, vacancies):
+def add_salary_to_calculate(vacancies):
+    salary_pool = []
     for vacancy in vacancies:
         avg_salary = predict_rub_salary_for_sj(vacancy)
         if avg_salary:
@@ -52,7 +53,7 @@ def main():
     jobs_per_page = 20
     languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages_synopsis = {}
-    
+
     for lang in languages:
         salary_pool = []
         params = {
@@ -61,7 +62,7 @@ def main():
             }
         response = get_response_sj(params, token)
         vacancies = response['objects']
-        salary_pool += add_salary_to_calculate(salary_pool, vacancies)
+        salary_pool.extend(add_salary_to_calculate(vacancies))
 
         number_pages = response['total'] / jobs_per_page
 
@@ -69,11 +70,11 @@ def main():
             params['page'] = page
             response = get_response_sj(params, token)
             vacancies = response['objects']
-            salary_pool += add_salary_to_calculate(salary_pool, vacancies)
+            salary_pool.extend(add_salary_to_calculate(vacancies))
 
         vacancy_rate = response['total']
         all_languages_synopsis[lang] = get_language_synopsis_sj(vacancy_rate, salary_pool)
-        table_for_print = get_table_for_print(all_languages_synopsis, 'SuperJob Moscow')
+    table_for_print = get_table_for_print(all_languages_synopsis, 'SuperJob Moscow')
 
     print(table_for_print)
     
