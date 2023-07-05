@@ -42,11 +42,11 @@ def add_salary_to_calculate(vacancies):
     return sal_pool
 
 
-def main():
+def start_hh_parser(languages):
     mosсow_id = 1
     number_jobs_on_page = 100
-    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages_synopsis = {}
+    
     for lang in languages:
         salary_pool = []
         params = {
@@ -69,7 +69,7 @@ def main():
         all_languages_synopsis[lang] = get_language_synopsis(vacancy_rate, salary_pool)
     table_for_print = get_table_for_print(all_languages_synopsis, 'HeadHunter Moscow')
 
-    print(table_for_print)
+    return table_for_print
 
 
 

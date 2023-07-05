@@ -1,6 +1,4 @@
 import requests
-import os
-from dotenv import load_dotenv
 from general_functions import (
         get_averaging,
         get_table_for_print, 
@@ -37,12 +35,9 @@ def add_salary_to_calculate(vacancies):
     return salary_pool
 
 
-def main():
-    load_dotenv()
-    token = os.environ['SUPERJOB_TOKEN']
+def start_sj_parser(token, languages):
     mosсow_id = 4
     jobs_per_page = 20
-    languages = ['Python', 'C', 'C++', 'JavaScript', 'Ruby', 'PHP', 'Go', 'Swift', 'TypeScript']
     all_languages_synopsis = {}
 
     for lang in languages:
@@ -67,7 +62,7 @@ def main():
         all_languages_synopsis[lang] = get_language_synopsis(vacancy_rate, salary_pool)
     table_for_print = get_table_for_print(all_languages_synopsis, 'SuperJob Moscow')
 
-    print(table_for_print)
+    return table_for_print
     
 
 
