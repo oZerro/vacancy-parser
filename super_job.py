@@ -60,9 +60,8 @@ def start_sj_parser(token, languages):
 
         vacancy_rate = response['total']
         all_languages_synopsis[lang] = get_language_synopsis(vacancy_rate, salary_pool)
-    table_for_print = get_table_for_print(all_languages_synopsis, 'SuperJob Moscow')
 
-    return table_for_print
+    return all_languages_synopsis
     
 
 
